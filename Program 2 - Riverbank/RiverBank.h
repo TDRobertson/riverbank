@@ -106,6 +106,17 @@ class RiverBank
         void display();
 
 
+        /*-----------------------------------------------------------------------
+            The displayPosition function displays the current location of each item
+            at the beginning of each turn.
+
+            Precondition:  None
+            Postcondition: Shows all item positions
+        -----------------------------------------------------------------------*/
+        void displayPositions();
+
+
+        int switchCase(int );
 };
 
 #endif

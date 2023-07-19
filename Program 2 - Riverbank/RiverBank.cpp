@@ -173,3 +173,58 @@ void RiverBank::display()
 {
     /*Add something here later*/
 }
+
+/*-----------------------------------------------------------------------
+    The displayPosition function displays the current location of each item
+    at the beginning of each turn.
+
+    Precondition:  None
+    Postcondition: Shows all item positions
+-----------------------------------------------------------------------*/
+void RiverBank::displayPositions()
+{
+    if (!fox, !chicken, !grain) 
+    {
+        cout << "North Bank: " << endl;        
+        cout << "<Empty> " << endl;
+        cout << "\nSouth Bank: " << "fox\nchicken\ngrain " << endl;
+    }
+    cout << "North Bank: " << endl;
+    if (fox || chicken || grain)
+    {
+        if (fox)
+        {
+            cout << "fox" << endl;
+        }
+        if (chicken)
+        {
+            cout << "chicken" << endl;
+        }
+        if (grain)
+        {
+            cout << "grain" << endl;
+        }
+    }
+
+    cout << "South Bank: " << endl;
+    if (!fox || !chicken || !grain)
+    {
+        if (!fox)
+        {
+            cout << "fox" << endl;
+        }
+        if (!chicken)
+        {
+            cout << "chicken" << endl;
+        }
+        if (!grain)
+        {
+            cout << "grain" << endl;
+        }
+    }
+}
+
+int RiverBank::switchCase(int)
+{
+    return 0;
+}
