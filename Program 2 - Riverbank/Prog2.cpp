@@ -17,7 +17,7 @@ int main()
     /*Variables used throughout program.*/
     RiverBank riverBank;
 
-    int gameState; /*Determines if game continues or enters fail state.*/
+    int gameState = 1; /*Determines if game continues or enters fail state.*/
     int userInput;
     int turnCount;
 
@@ -42,9 +42,8 @@ int main()
     {
         cin >> userInput;
         turnCount = riverBank.switchCase(userInput);
-    } while (gameState != 0);
+        gameState = riverBank.getStatus(); // Update gameState based on the return value of getStatus()
+    } while (gameState != 0 && gameState != 2);
     
-
-
     return 0;
 }

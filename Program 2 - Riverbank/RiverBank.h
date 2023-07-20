@@ -93,7 +93,7 @@ class RiverBank
 			Precondition:  None
 			Postcondition: Determines if game continues or ends
         -----------------------------------------------------------------------*/
-        int setStatus(int& );
+        int setStatus();
 
 
         /*-----------------------------------------------------------------------

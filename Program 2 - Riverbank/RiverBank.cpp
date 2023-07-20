@@ -105,7 +105,7 @@ int RiverBank::getStatus()
     Receives:   A valid integer.
     Postcondition: Determines if game continues or ends in loss/victory
 -----------------------------------------------------------------------*/
-int RiverBank::setStatus(int& gameState)
+int RiverBank::setStatus()
 {
     /*Game States: If Game State = 0, user loses, Game State = 1, game continues, Game State = 2, user wins.
     Fail state occurs if farmer is not present with combinitions of chicken + grain, as chicken eats the grain.
@@ -135,6 +135,7 @@ int RiverBank::setStatus(int& gameState)
     else if(farmer && !chicken && !grain && !fox)
     {
         gameState = 0; /*Farmer not present, so fox eats chicken while chicken tries to eat grain.*/
+        cout << "Farmer not present, so fox eats chicken while chicken tries to eat grain" << endl;
         return gameState; /*User loses*/
     }
 
@@ -159,6 +160,7 @@ int RiverBank::setStatus(int& gameState)
         return gameState;
     }
 
+    this->gameState = gameState;
 }
 
 
@@ -183,15 +185,15 @@ void RiverBank::display()
 -----------------------------------------------------------------------*/
 void RiverBank::displayPositions()
 {
-    if (!fox, !chicken, !grain) 
+    if (!fox && !chicken && !grain) 
     {
         cout << "North Bank: " << endl;        
         cout << "<Empty> " << endl;
-        cout << "\nSouth Bank: " << "fox\nchicken\ngrain " << endl;
+        cout << "\nSouth Bank: " << "\nfox\nchicken\ngrain " << endl;
     }
-    cout << "North Bank: " << endl;
-    if (fox || chicken || grain)
+    else
     {
+        cout << "North Bank: " << endl;
         if (fox)
         {
             cout << "fox" << endl;
@@ -204,11 +206,8 @@ void RiverBank::displayPositions()
         {
             cout << "grain" << endl;
         }
-    }
 
-    cout << "South Bank: " << endl;
-    if (!fox || !chicken || !grain)
-    {
+        cout << "South Bank: " << endl;
         if (!fox)
         {
             cout << "fox" << endl;
@@ -229,7 +228,7 @@ int RiverBank::switchCase(int userInput)
     int turnCount = 0;
     int gameState = 1;
 
-    while (gameState != 0 || gameState != 2) /*Check if game is in fail/continue/win state.*/
+    while (gameState != 0 && gameState != 2) /*Check if game is in fail/continue/win state.*/
     {
         if (userInput < 1 || userInput > 5)
         {
@@ -242,10 +241,11 @@ int RiverBank::switchCase(int userInput)
             {
                 case 1:
                     turnCount++;
-                    setPosition(farmer);
                     cout << "You go to the other side of the river by yourself. " << endl;
+                    setPosition(farmer);
                     displayPositions();
-                    setStatus(gameState);
+                    setStatus();
+                    cout << "Turn: " << turnCount << endl;
                     break;
 
                 case 2:
@@ -254,7 +254,7 @@ int RiverBank::switchCase(int userInput)
                     setPosition(fox);
                     cout << "You take the fox to the other side of the river. " << endl;
                     displayPositions();
-                    setStatus(gameState);
+                    setStatus();
                     break;
 
                 case 3:
@@ -263,7 +263,7 @@ int RiverBank::switchCase(int userInput)
                     setPosition(chicken);
                     cout << "You take the chicken to the other side of the river. " << endl;
                     displayPositions();
-                    setStatus(gameState);
+                    setStatus();
                     break;
                 case 4:
                     turnCount++;
@@ -271,7 +271,7 @@ int RiverBank::switchCase(int userInput)
                     setPosition(grain);
                     cout << "You take the grain to the other side of the river. " << endl;
                     displayPositions();
-                    setStatus(gameState);
+                    setStatus();
                     break;
 
                 case 5: 
@@ -280,6 +280,9 @@ int RiverBank::switchCase(int userInput)
                     break;
             }
         }      
+        // Get the next userInput
+        cout << "How would you like to cross the river? ";
+        cin >> userInput;
     }
     return turnCount;
 }
