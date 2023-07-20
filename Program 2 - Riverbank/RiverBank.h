@@ -72,7 +72,7 @@ class RiverBank
             Receives: A valid RiverBank object member.
             Postcondition: Current RiverBank Object is set to True(North)/False(South)
         -----------------------------------------------------------------------*/
-        void setPosition(bool );
+        void setPosition(bool& );
 
 
         /*-----------------------------------------------------------------------

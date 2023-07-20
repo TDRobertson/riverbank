@@ -17,6 +17,7 @@ int main()
     /*Variables used throughout program.*/
     int gameState; /*Determines if game continues or enters fail state.*/
     int userInput;
+    int turnCount;
 
 
     cout << "Welcome to the Fox, Chicken, and the Grain game!" << endl; // testing github commit
@@ -30,10 +31,10 @@ int main()
     cout << "As long as you are present on the same side of the fox, chicken, and the grain. They will not eat each other!" << endl;
 
     /*Call switch case to ask user who they will cross the river with and enact the turn.*/
-    cout << "What would you like to cross the river with? " << endl << "Enter these values to issue a command: " << endl;
+    cout << "How would you like to cross the river? " << endl << "Enter these values to issue a command: " << endl;
     cout << "\t1. Move ONLY yourself across the river. " << "\n\t2. Move the Fox & yourself across the river. " << "\n\t3. Move the Chicken and yourself across the river. ";
     cout << "\n\t4. Move the Grain and yourself across the river. " << "\n\t 5. Display current item positions! (North/South). " << endl;
-    userInput = switchCase();
+    turnCount = switchCase();
 
     return 0;
 }

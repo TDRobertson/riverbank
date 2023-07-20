@@ -67,7 +67,7 @@ bool RiverBank::getPosition() const
     Receives: A valid RiverBank object member.
     Postcondition: Current RiverBank Object is set to True(North)/False(South)
 -----------------------------------------------------------------------*/
-void RiverBank::setPosition(bool objectMember)
+void RiverBank::setPosition(bool &objectMember)
 {   
     position = objectMember; /*Set user-selected option as input for position*/
 
@@ -224,7 +224,60 @@ void RiverBank::displayPositions()
     }
 }
 
-int RiverBank::switchCase(int)
+int RiverBank::switchCase(int userInput)
 {
-    return 0;
+    int turnCount = 0;
+    while (gameState != 0 || gameState != 2) /*Check if game is in fail/continue/win state.*/
+    {
+        if (userInput < 1 || userInput > 5)
+        {
+            cout << "You must enter one of the valid menu options: ";
+            cin >> userInput;
+        }
+        else
+        {
+            switch (userInput)
+            {
+                case 1:
+                    turnCount++;
+                    setPosition(farmer);
+                    cout << "You go to the other side of the river by yourself. " << endl;
+                    displayPositions();
+                    setStatus();
+                    break;
+
+                case 2:
+                    turnCount++;
+                    setPosition(farmer);
+                    setPosition(fox);
+                    cout << "You take the fox to the other side of the river. " << endl;
+                    displayPositions();
+                    setStatus();
+                    break;
+
+                case 3:
+                    turnCount++;
+                    setPosition(farmer);
+                    setPosition(chicken);
+                    cout << "You take the chicken to the other side of the river. " << endl;
+                    displayPositions();
+                    setStatus();
+                    break;
+                case 4:
+                    turnCount++;
+                    setPosition(farmer);
+                    setPosition(grain);
+                    cout << "You take the grain to the other side of the river. " << endl;
+                    displayPositions();
+                    setStatus();
+                    break;
+
+                case 5: 
+                    cout << "This is the current position of yourself and all items! " << endl;
+                    displayPositions();
+                    break;
+            }
+        }      
+    }
+    return turnCount;
 }
