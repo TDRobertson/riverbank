@@ -7,7 +7,7 @@
 	Written for: CSC 1310							(07/17/2023)	
 --------------------------------------------------------------------------------------------------------*/
 
-#include <RiverBank.h>
+#include "RiverBank.h"
 #include <iostream>
 
 using namespace std;
@@ -15,6 +15,8 @@ using namespace std;
 int main()
 {
     /*Variables used throughout program.*/
+    RiverBank riverBank;
+
     int gameState; /*Determines if game continues or enters fail state.*/
     int userInput;
     int turnCount;
@@ -34,7 +36,15 @@ int main()
     cout << "How would you like to cross the river? " << endl << "Enter these values to issue a command: " << endl;
     cout << "\t1. Move ONLY yourself across the river. " << "\n\t2. Move the Fox & yourself across the river. " << "\n\t3. Move the Chicken and yourself across the river. ";
     cout << "\n\t4. Move the Grain and yourself across the river. " << "\n\t 5. Display current item positions! (North/South). " << endl;
-    turnCount = switchCase();
+
+    /*Continuously get user input while game is not in fail state.*/
+    do
+    {
+        cin >> userInput;
+        turnCount = riverBank.switchCase(userInput);
+    } while (gameState != 0);
+    
+
 
     return 0;
 }

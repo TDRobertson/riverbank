@@ -105,7 +105,7 @@ int RiverBank::getStatus()
     Receives:   A valid integer.
     Postcondition: Determines if game continues or ends in loss/victory
 -----------------------------------------------------------------------*/
-int RiverBank::setStatus()
+int RiverBank::setStatus(int& gameState)
 {
     /*Game States: If Game State = 0, user loses, Game State = 1, game continues, Game State = 2, user wins.
     Fail state occurs if farmer is not present with combinitions of chicken + grain, as chicken eats the grain.
@@ -227,6 +227,8 @@ void RiverBank::displayPositions()
 int RiverBank::switchCase(int userInput)
 {
     int turnCount = 0;
+    int gameState = 1;
+
     while (gameState != 0 || gameState != 2) /*Check if game is in fail/continue/win state.*/
     {
         if (userInput < 1 || userInput > 5)
@@ -243,7 +245,7 @@ int RiverBank::switchCase(int userInput)
                     setPosition(farmer);
                     cout << "You go to the other side of the river by yourself. " << endl;
                     displayPositions();
-                    setStatus();
+                    setStatus(gameState);
                     break;
 
                 case 2:
@@ -252,7 +254,7 @@ int RiverBank::switchCase(int userInput)
                     setPosition(fox);
                     cout << "You take the fox to the other side of the river. " << endl;
                     displayPositions();
-                    setStatus();
+                    setStatus(gameState);
                     break;
 
                 case 3:
@@ -261,7 +263,7 @@ int RiverBank::switchCase(int userInput)
                     setPosition(chicken);
                     cout << "You take the chicken to the other side of the river. " << endl;
                     displayPositions();
-                    setStatus();
+                    setStatus(gameState);
                     break;
                 case 4:
                     turnCount++;
@@ -269,7 +271,7 @@ int RiverBank::switchCase(int userInput)
                     setPosition(grain);
                     cout << "You take the grain to the other side of the river. " << endl;
                     displayPositions();
-                    setStatus();
+                    setStatus(gameState);
                     break;
 
                 case 5: 
