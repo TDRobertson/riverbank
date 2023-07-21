@@ -42,7 +42,7 @@ RiverBank::RiverBank()
     chicken = false;
     grain = false;
     fox = false;
-    position = false; /* might breakstuff, delete later*/
+    gameState = 1;
 }
 
 
@@ -52,9 +52,9 @@ RiverBank::RiverBank()
     Precondition:  None
     Postcondition: A bool is returned representing the objects position.
 -----------------------------------------------------------------------*/
-bool RiverBank::getPosition() const
+bool RiverBank::getPosition(bool item) const
 {
-    return position;
+    return item;
 }
 
 
@@ -68,19 +68,21 @@ bool RiverBank::getPosition() const
     Postcondition: Current RiverBank Object is set to True(North)/False(South)
 -----------------------------------------------------------------------*/
 void RiverBank::setPosition(bool &objectMember)
+ 
 {   
-    position = objectMember; /*Set user-selected option as input for position*/
-
-    if (position == false)  /*If object on southern bank, set position to north bank*/
-    {
-        position = true;
-    }
-
-    else if (position == true) /*If object on north bank, set position to south bank*/
-    {
-        position = false; 
-    }
+    objectMember = !objectMember; // Toggle the object's current position.
 }
+
+    //if (position == false)  /*If object on southern bank, set position to north bank*/
+    //{
+    //    position = true;
+    //}
+
+    //else if (position == true) /*If object on north bank, set position to south bank*/
+    //{
+    //    position = false; 
+    //}
+
 
 
 /*-----------------------------------------------------------------------
@@ -115,52 +117,32 @@ int RiverBank::setStatus()
     
     /*for readability of the below code !farmer means farmer = false, and farmer = true.*/
     
-    /*if farmer and all objects are south (default starting position)*/
-    if (!farmer && !chicken && !grain && !fox)
+    /* WIN STATE */
+    /* If farmer moves all objects and themselves North */
+    if (farmer && chicken && grain && fox)
     {
-        gameState = 1; /*Nothing happens, game continues*/
-        return gameState;
+        gameState = 2;  /* All objects have crossed the river safely */
     }
-
-    /*WIN STATE*/
-    /*If farmer moves all objects and themselves North*/
-    else if (farmer && chicken && grain && fox)
+    /* FAIL STATES */
+    /* If fox and chicken are together without farmer */
+    else if (farmer != fox && fox == chicken)
     {
-        gameState = 2;  /*All objects have crossed the river safely*/
-        return gameState;   /*User wins*/
+        gameState = 0;  /* Fox eats chicken */
+        cout << "Farmer not present, so fox eats chicken." << endl;
     }
-
-    /*FAIL STATES*/
-    /*If farmer is north and objects are south*/
-    else if(farmer && !chicken && !grain && !fox)
+    /* If chicken and grain are together without farmer */
+    else if (farmer != chicken && chicken == grain)
     {
-        gameState = 0; /*Farmer not present, so fox eats chicken while chicken tries to eat grain.*/
-        cout << "Farmer not present, so fox eats chicken while chicken tries to eat grain" << endl;
-        return gameState; /*User loses*/
+        gameState = 0;  /* Chicken eats grain */
+        cout << "Farmer not present, so chicken eats grain." << endl;
     }
-
-    /*If farmer is North and chicken + fox are South or chicken + grain are South*/
-    else if(farmer && !chicken && grain && !fox || farmer && !chicken && !grain && fox)
-    {
-        gameState = 0; /*Either fox eats chicken or chicken eats grain*/
-        return gameState; /*User loses*/
-    }
-
-    /*If farmer is South and chicken + fox are North, or chicken + grain are North.*/
-    else if (!farmer && chicken && !grain && fox || !farmer && chicken && grain && !fox)
-    {
-        gameState = 0;  /*Either fox eats chicken or chicken eats grain*/
-        return gameState;   /*User loses*/
-    }
-
-    /*ALL OTHER POSITION COMBINATIONS ARE SAFE, SO GAME CONTINUES*/
+    /* ALL OTHER POSITION COMBINATIONS ARE SAFE, SO GAME CONTINUES */
     else
     {
-        gameState = 1;
-        return gameState;
+        gameState = 1; /* Nothing happens, game continues */
     }
 
-    this->gameState = gameState;
+    return this->gameState;
 }
 
 
@@ -226,7 +208,7 @@ void RiverBank::displayPositions()
 int RiverBank::switchCase(int userInput)
 {
     int turnCount = 0;
-    int gameState = 1;
+    int gameState = getStatus();  // get the initial game state
 
     while (gameState != 0 && gameState != 2) /*Check if game is in fail/continue/win state.*/
     {
@@ -244,7 +226,7 @@ int RiverBank::switchCase(int userInput)
                     cout << "You go to the other side of the river by yourself. " << endl;
                     setPosition(farmer);
                     displayPositions();
-                    setStatus();
+                    gameState = setStatus();  // update the game state
                     cout << "Turn: " << turnCount << endl;
                     break;
 
@@ -254,7 +236,7 @@ int RiverBank::switchCase(int userInput)
                     setPosition(fox);
                     cout << "You take the fox to the other side of the river. " << endl;
                     displayPositions();
-                    setStatus();
+                    gameState = setStatus();  // update the game state
                     break;
 
                 case 3:
@@ -263,15 +245,16 @@ int RiverBank::switchCase(int userInput)
                     setPosition(chicken);
                     cout << "You take the chicken to the other side of the river. " << endl;
                     displayPositions();
-                    setStatus();
+                    gameState = setStatus();  // update the game state
                     break;
+
                 case 4:
                     turnCount++;
                     setPosition(farmer);
                     setPosition(grain);
                     cout << "You take the grain to the other side of the river. " << endl;
                     displayPositions();
-                    setStatus();
+                    gameState = setStatus();  // update the game state
                     break;
 
                 case 5: 
@@ -280,9 +263,11 @@ int RiverBank::switchCase(int userInput)
                     break;
             }
         }      
-        // Get the next userInput
-        cout << "How would you like to cross the river? ";
-        cin >> userInput;
+        // Get the next userInput only if the game state is not 0 or 2
+        if (gameState != 0 && gameState != 2) {
+            cout << "How would you like to cross the river? ";
+            cin >> userInput;
+        }
     }
-    return turnCount;
+    return gameState;  // return the final game state
 }

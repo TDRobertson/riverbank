@@ -60,7 +60,7 @@ class RiverBank
 			Precondition:  None
 			Postcondition: A bool is returned representing the objects position.
         -----------------------------------------------------------------------*/
-        bool getPosition() const;
+        bool getPosition(bool item) const;
 
 
         /*-----------------------------------------------------------------------
