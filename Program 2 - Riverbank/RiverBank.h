@@ -10,8 +10,8 @@
         setPosition – sets position as South (False) or North (True)
         getStatus – optionally returns message telling state of the game world to user after input.
         setStatus – set state of game world based off Boolean combinations of data members.	
-        displayOptions – displays the options for the user to choose from.
-        displayPosition – displays the current location of each item at the beginning of each turn.
+        displayOptions – displays the movement options for the user to choose from.
+        displayPosition – displays the current location of each item during each turn.
         switchCase – takes user input and calls the appropriate function to move the user and items across the river.
 
 
@@ -21,9 +21,8 @@
         Bool chicken - position of the chicken on South (False) or North (True) river bank.
         Bool grain - position of the grain on South (False) or North (True) river bank.
         Bool fox - position of the fox on South (False) or North (True) river bank.
-        bool position - placeholder position for select object member.
         int turnCount - keeps track of the number of turns taken by the user.
-        int gameState; - value of game status which determines if game continues or end.
+        int gameState; - value of game status which determines if game continues or ends.
 
 	Written by:  (Thomas D. Robertson II)			Tennessee Technological University
 	Written for: CSC 1310							(07/17/2023)	
@@ -46,7 +45,6 @@ class RiverBank
         bool chicken;
         bool grain;
         bool fox;
-        bool position;
         int turnCount = 1;
         int gameState;
 
@@ -77,7 +75,8 @@ class RiverBank
         /*-----------------------------------------------------------------------
 			The getPosition function returns the boolean value of data object member.
 		
-			Precondition:  None
+			Precondition:  A valid boolean riverbank object member.
+            Receives: A valid boolean riverbank object member.
 			Postcondition: A bool is returned representing the objects position.
         -----------------------------------------------------------------------*/
         bool getPosition(bool item) const;
@@ -88,40 +87,40 @@ class RiverBank
             to determine positioning of the object when user picks object to move to
             other side of the river bank during their turn.
 
-            Precondition:  A valid RiverBank object member.
-            Receives: A valid RiverBank object member.
+			Precondition:  A valid boolean riverbank object member.
+            Receives: A valid boolean riverbank object member.
             Postcondition: Current RiverBank Object is set to True(North)/False(South)
         -----------------------------------------------------------------------*/
         void setPosition(bool& );
 
 
         /*-----------------------------------------------------------------------
-			The User Optional getStatus function returns the state of the game based 
+            The getStatus function returns the state of the game based 
             off combinations of boolean values among data object members.
-		
-			Precondition:  None
-			Postcondition: Determines if game continues or ends
+
+            Precondition:  None
+            Postcondition: Determines if game continues or ends
         -----------------------------------------------------------------------*/
         int getStatus();
 
 
         /*-----------------------------------------------------------------------
-			The setStatus function sets the state of the game based 
+            The setStatus function sets the state of the game based 
             off combinations of boolean values among data object members on a 
             given turn.
-		
-			Precondition:  None
-			Postcondition: Determines if game continues or ends
+
+            Precondition:  None
+            Postcondition: Determines if game continues or ends in loss/victory
         -----------------------------------------------------------------------*/
         int setStatus();
 
 
         /*-----------------------------------------------------------------------
-			The display function displays the current state of the game after every
-            user decision.
-		
-			Precondition:  None
-			Postcondition: Determines if game continues or ends
+            The displayOptions function displays the options the user can choose
+            from.
+
+            Precondition:  None
+            Postcondition: Displays all options to user.
         -----------------------------------------------------------------------*/
         void displayOptions();
 
@@ -136,6 +135,15 @@ class RiverBank
         void displayPositions();
 
 
+        /*-----------------------------------------------------------------------
+            The switchCase function executes actions based on user input, updates
+            the turn count, and returns the current game state.
+
+            Precondition:  A valid integer userInput which corresponds to an action.
+            Receives: An integer userInput which indicates which action to perform.
+            Postcondition: Executes a series of actions based on the userInput and 
+                        returns the current game state (win, lose, or continue).
+        -----------------------------------------------------------------------*/
         int switchCase(int );
 };
 
