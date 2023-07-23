@@ -28,8 +28,11 @@
 #define RIVERBANK_H
 
 #include <iostream>
+#include <fstream>
 
 using namespace std;
+
+fstream outFile;
 
 class RiverBank
 {
