@@ -9,6 +9,7 @@
 
 #include "RiverBank.h"
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
@@ -16,6 +17,8 @@ int main()
 {
     /*Variables used throughout program.*/
     RiverBank riverBank;
+
+    string continueState = "y";
 
     int gameState = 1; /*Determines if game continues or enters fail state.*/
     int userInput;
@@ -37,21 +40,56 @@ int main()
     cout << "\t1. Move ONLY yourself across the river. " << "\n\t2. Move the Fox & yourself across the river. " << "\n\t3. Move the Chicken and yourself across the river. ";
     cout << "\n\t4. Move the Grain and yourself across the river. " << "\n\t5. Display current item positions! (North/South). " << endl;
 
-    // Continuously get user input while game is not in fail state.
-   do
+    // Continuously run the game until user presses n or N.
+    while (continueState == "y" || continueState == "Y")
     {
-        cin >> userInput;
-        gameState = riverBank.switchCase(userInput); // Update gameState based on the return value of switchCase()
-    } while (gameState == 1); // Repeat the loop while the game state is 1 (continue state)
 
-    if(gameState == 0) 
-    {
-        cout << "Game Over! You lost." << endl;
-    } 
-    else if(gameState == 2) 
-    {
-        cout << "Congratulations! You won the game." << endl;
+        // Continuously get user input while game is not in fail state.        
+        do
+            {
+                cout << "\n\tEnter your choice: ";
+                cin >> userInput;
+
+                /*Validate user has entered an integer value, if not keep prompting until they do.*/
+                while(cin.fail())   /*Check if previous input operation failed.*/
+                {
+                    cin.clear();    /*Reset failbit to goodbit, to allow user input again.*/
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); /*Skip bad input reads*/
+                    cout << "\n\tInvalid input, please enter an integer: ";
+                    cout << "\n\tEnter your choice: ";
+                    cin >> userInput;
+                }
+
+                gameState = riverBank.switchCase(userInput); // Update gameState based on the return value of switchCase()
+            } while (gameState == 1); // Repeat the loop while the game state is 1 (continue state)
+
+            if(gameState == 0) /*Failstate was achieved, ask user if they want to continue.*/
+            {
+                cout << "\nGame Over! You lost." << endl;
+                cout << "\nWould you like to play again? (Enter y or n): ";
+                cin >> continueState;
+
+                /*Reset game state and turn count for new game.*/
+                if (continueState == "y" || continueState == "Y")
+                {
+                    riverBank.resetGame();
+                    riverBank.displayOptions();
+                }
+            } 
+            else if(gameState == 2) /*Win state was achieved, congratulate user and ask if they want to play again.*/
+            {
+                cout << "\nCongratulations! You won the game." << endl;
+                cout << "\nWould you like to play again? (Enter y or n): ";
+                cin >> continueState;
+
+                /*Reset game state and turn count for new game.*/
+                if (continueState == "y" || continueState == "Y")
+                {
+                    riverBank.resetGame();
+                    riverBank.displayOptions();
+                }
+            }        
     }
-    
+
     return 0;
 }
