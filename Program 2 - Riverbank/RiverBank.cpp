@@ -64,6 +64,7 @@ void RiverBank::resetGame()
     grain = false;
     fox = false;
     gameState = 1;
+    turnCount = 1;
 }
 
 
@@ -258,11 +259,14 @@ void RiverBank::displayPositions()
     cin.ignore();
     cin.get();
 
+    cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/
+    outFile << "\nTurn: " << turnCount << endl;    /*Display updated turn counter to outFile*/ 
+
 }
 
 int RiverBank::switchCase(int userInput)
 {
-    int turnCount = 0;             /*Set the initial turn count.*/
+    this->turnCount = 1;             /*Set the initial turn count.*/
     int gameState = getStatus();  /*get the initial game state*/
 
     while (gameState != 0 && gameState != 2) /*Check if game is in fail/continue/win state.*/
@@ -283,9 +287,7 @@ int RiverBank::switchCase(int userInput)
             {
                 /*If user moves only the farmer.*/
                 case 1:
-                    turnCount++;
-                    cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/
-                    outFile << "\nTurn: " << turnCount << endl;    /*Display updated turn counter to outFile*/  
+                    this->turnCount++; 
                     cout << "\nYou go to the other side of the river by yourself. " << endl;
                     outFile << "\nYou go to the other side of the river by yourself. " << endl;
                     setPosition(farmer);      /*Swap farmers position*/
@@ -299,9 +301,7 @@ int RiverBank::switchCase(int userInput)
                     /*Validate farmer and the item to be moved are on the same side of the river.*/
                     if(farmer == fox)
                     {
-                        turnCount++;
-                        cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/ 
-                        outFile << "\nTurn: " << turnCount << endl;    /*Display updated turn counter to outFile*/                       
+                        this->turnCount++;                   
                         setPosition(farmer);      /*Swap farmers position*/
                         setPosition(fox);         /*Swap foxes position*/      
                         cout << "\nYou take the fox to the other side of the river. " << endl;    
@@ -321,8 +321,7 @@ int RiverBank::switchCase(int userInput)
                     /*Validate farmer and the item to be moved are on the same side of the river.*/
                     if(farmer == chicken)
                     {
-                        turnCount++;
-                        cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/                        
+                        this->turnCount++;                      
                         setPosition(farmer);      /*Swap farmers position*/
                         setPosition(chicken);         /*Swap chickens position*/      
                         cout << "\nYou take the chicken to the other side of the river. " << endl;   
@@ -343,8 +342,7 @@ int RiverBank::switchCase(int userInput)
                     /*Validate farmer and item to be moved are on the same side of the river.*/
                     if(farmer == grain)
                     {
-                        turnCount++;
-                        cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/                        
+                        this->turnCount++;                    
                         setPosition(farmer);      /*Swap farmers position*/
                         setPosition(grain);         /*Swap grain position*/      
                         cout << "\nYou take the grain to the other side of the river. " << endl;     

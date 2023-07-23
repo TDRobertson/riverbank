@@ -1,0 +1,105 @@
+
+***********************Description of the game***********************
+In this game, the objective is for the farmer to get his fox, chicken, and grain safely across a river from the south bank to the north bank. 
+The farmer can take at most one thing with him when he makes his trip across the river in his kayak 
+Unfortunately, if the farmer leaves the fox and chicken together, the fox will eat the chicken (because it tastes like chicken). 
+However, if the farmer leaves the chicken and the grain together, the chicken will eat the grain...
+As long as you are present on the same side of the fox, chicken, and the grain. They will not eat each other!
+
+How would you like to cross the river? 
+Enter these values to issue a command: 
+	1. Move ONLY yourself across the river. 
+	2. Move the Fox & yourself across the river. 
+	3. Move the Chicken and yourself across the river. 
+	4. Move the Grain and yourself across the river. 
+	5. Display current item positions! (North/South). 
+
+Turn 1: 
+	Who will you cross to the other side of the river with? 
+You take the chicken to the other side of the river. 
+
+North Bank: 
+Farmer
+Chicken
+
+South Bank: 
+Fox
+Grain
+
+Turn: 2
+
+You go to the other side of the river by yourself. 
+
+North Bank: 
+Chicken
+
+South Bank: 
+Farmer
+Fox
+Grain
+
+Turn: 3
+
+You take the grain to the other side of the river. 
+
+North Bank: 
+Farmer
+Chicken
+Grain
+
+South Bank: 
+Fox
+
+Turn: 4
+
+You take the chicken to the other side of the river. 
+
+North Bank: 
+Grain
+
+South Bank: 
+Farmer
+Fox
+Chicken
+
+Turn: 5
+
+You take the fox to the other side of the river. 
+
+North Bank: 
+Farmer
+Fox
+Grain
+
+South Bank: 
+Chicken
+
+Turn: 6
+
+You go to the other side of the river by yourself. 
+
+North Bank: 
+Fox
+Grain
+
+South Bank: 
+Farmer
+Chicken
+
+Turn: 7
+
+You take the chicken to the other side of the river. 
+
+North Bank: 
+Farmer
+Fox
+Chicken
+Grain
+
+South Bank: 
+
+Turn: 8
+
+Congratulations! You won the game.
+
+Would you like to play again? (Enter y or n): 

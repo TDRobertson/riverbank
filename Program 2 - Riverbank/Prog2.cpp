@@ -14,18 +14,19 @@
 
 using namespace std;
 
+ofstream outFile;   /*Declare global ofstream object for writing to file.*/
+
 int main()
 {
     /*Variables used throughout program.*/
     RiverBank riverBank;
 
-    ofstream outFile;
-    string filename;
+    string filename;                /*Stores user input filename*/
     string continueState = "y";     /*Sets default continue state.*/
 
     int gameState = 1;              /*Determines if game continues or enters fail state.*/
     int userInput;
-    int turnCount = 0;
+    int turnCount = 1;              /*Initial turn count*/
 
 
     /*Introduction message*/
@@ -72,7 +73,10 @@ int main()
         // Continuously get user input while game is not in fail state.        
         do
             {
-                cout << "\n\tWho will you cross to the other side of the river with? ";
+                cout << "\nTurn " << turnCount << ": ";
+                outFile << "\nTurn " << turnCount << ": ";
+                cout << "\nWho will you cross to the other side of the river with? ";
+                outFile << "\n\tWho will you cross to the other side of the river with? ";
                 cout << "\n\t(1) Just yourself, (2) Fox, (3) Chicken, (4) Grain, (5) Display current item positions: ";
                 cin >> userInput;
 
@@ -95,7 +99,6 @@ int main()
                 cout << "\nGame Over! You lost." << endl;
                 outFile << "\nGame Over! You lost." << endl;
                 cout << "\nWould you like to play again? (Enter y or n): ";
-                outFile << "\nWould you like to play again? (Enter y or n): ";
                 cin >> continueState;
 
                 /*Reset game state and turn count for new game.*/
@@ -110,7 +113,6 @@ int main()
                 cout << "\nCongratulations! You won the game." << endl;
                 outFile << "\nCongratulations! You won the game." << endl;
                 cout << "\nWould you like to play again? (Enter y or n): ";
-                outFile << "\nWould you like to play again? (Enter y or n): ";
                 cin >> continueState;
 
                 /*Reset game state and turn count for new game.*/
@@ -124,6 +126,7 @@ int main()
 
     /*Close the gameData file*/
     outFile.close();
+    cout << "Game data has been saved to " << filename  << endl;
 
     return 0;
 }
