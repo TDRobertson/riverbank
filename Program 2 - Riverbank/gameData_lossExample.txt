@@ -16,6 +16,23 @@ Enter these values to issue a command:
 
 Turn 1: 
 	Who will you cross to the other side of the river with? 
+You take the fox to the other side of the river. 
+
+North Bank: 
+Farmer
+Fox
+
+South Bank: 
+Chicken
+Grain
+
+Turn: 2
+You left the chicken alone with the grain! It hungrily jumps into the bag and swiftly devours all of it! 
+
+Game Over! You lost.
+
+Turn 1: 
+	Who will you cross to the other side of the river with? 
 You take the chicken to the other side of the river. 
 
 North Bank: 
@@ -28,15 +45,15 @@ Grain
 
 Turn: 2
 
-You go to the other side of the river by yourself. 
+You take the chicken to the other side of the river. 
 
 North Bank: 
-Chicken
+Farmer 
 
 South Bank: 
-Farmer
 Fox
-Grain
+Chicken
+Grain 
 
 Turn: 3
 
@@ -44,60 +61,13 @@ You take the grain to the other side of the river.
 
 North Bank: 
 Farmer
-Chicken
 Grain
 
 South Bank: 
 Fox
+Chicken
 
 Turn: 4
+The fox ate the chicken because you left them alone! 
 
-You take the chicken to the other side of the river. 
-
-North Bank: 
-Grain
-
-South Bank: 
-Farmer
-Fox
-Chicken
-
-Turn: 5
-
-You take the fox to the other side of the river. 
-
-North Bank: 
-Farmer
-Fox
-Grain
-
-South Bank: 
-Chicken
-
-Turn: 6
-
-You go to the other side of the river by yourself. 
-
-North Bank: 
-Fox
-Grain
-
-South Bank: 
-Farmer
-Chicken
-
-Turn: 7
-
-You take the chicken to the other side of the river. 
-
-North Bank: 
-Farmer
-Fox
-Chicken
-Grain
-
-South Bank: 
-
-Turn: 8
-
-Congratulations! You won the game.
+Game Over! You lost.
