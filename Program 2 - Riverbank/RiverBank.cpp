@@ -4,11 +4,15 @@
     defined in RiverBank.h
 
 	Operations are:
+        RiverBank – default constructor that initializes the RiverBank object data members.
+        resetGame – resets the RiverBank object data members to their default values whenever the user chooses to continue playing the game after a win or loss.
         getPosition – returns bool value of data member
         setPosition – sets position as South (False) or North (True)
         getStatus – optionally returns message telling state of the game world to user after input.
         setStatus – set state of game world based off Boolean combinations of data members.	
-        display – displays the current state of the game after every user decision.
+        displayOptions – displays the options for the user to choose from.
+        displayPosition – displays the current location of each item at the beginning of each turn.
+        switchCase – takes user input and calls the appropriate function to move the user and items across the river.
 
 
 	  
@@ -18,7 +22,8 @@
         Bool grain - position of the grain on South (False) or North (True) river bank.
         Bool fox - position of the fox on South (False) or North (True) river bank.
         bool position - placeholder position for select object member.
-        int gameState; - value of game status which determines if game continues or end.
+        int turnCount - keeps track of the number of turns taken by the user.
+        int gameState - value of game status which determines if game continues or ends.
 
 	Written by:  (Thomas D. Robertson II)			Tennessee Technological University
 	Written for: CSC 1310							(07/17/2023)	
@@ -113,8 +118,7 @@ int RiverBank::getStatus()
     off combinations of boolean values among data object members on a 
     given turn.
 
-    Precondition:  A valid integer from the user chosen switch case
-    Receives:   A valid integer.
+    Precondition:  None
     Postcondition: Determines if game continues or ends in loss/victory
 -----------------------------------------------------------------------*/
 int RiverBank::setStatus()
@@ -264,6 +268,16 @@ void RiverBank::displayPositions()
 
 }
 
+
+/*-----------------------------------------------------------------------
+    The switchCase function executes actions based on user input, updates
+    the turn count, and returns the current game state.
+
+    Precondition:  A valid integer userInput which corresponds to an action.
+    Receives: An integer userInput which indicates which action to perform.
+    Postcondition: Executes a series of actions based on the userInput and 
+                   returns the current game state (win, lose, or continue).
+-----------------------------------------------------------------------*/
 int RiverBank::switchCase(int userInput)
 {
     this->turnCount = 1;             /*Set the initial turn count.*/

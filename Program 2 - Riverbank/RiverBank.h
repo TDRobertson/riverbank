@@ -23,7 +23,7 @@
         Bool fox - position of the fox on South (False) or North (True) river bank.
         bool position - placeholder position for select object member.
         int turnCount - keeps track of the number of turns taken by the user.
-        int gameState; - value of game status which determines if game continues or end.
+        int gameState; - value of game status which determines if game continues or ends.
 
 	Written by:  (Thomas D. Robertson II)			Tennessee Technological University
 	Written for: CSC 1310							(07/17/2023)	
@@ -106,22 +106,22 @@ class RiverBank
 
 
         /*-----------------------------------------------------------------------
-			The setStatus function sets the state of the game based 
+            The setStatus function sets the state of the game based 
             off combinations of boolean values among data object members on a 
             given turn.
-		
-			Precondition:  None
-			Postcondition: Determines if game continues or ends
+
+            Precondition:  None
+            Postcondition: Determines if game continues or ends in loss/victory
         -----------------------------------------------------------------------*/
         int setStatus();
 
 
         /*-----------------------------------------------------------------------
-			The display function displays the current state of the game after every
-            user decision.
-		
-			Precondition:  None
-			Postcondition: Determines if game continues or ends
+            The displayOptions function displays the options the user can choose
+            from at the beginning of each turn.
+
+            Precondition:  None
+            Postcondition: Displays all options to user.
         -----------------------------------------------------------------------*/
         void displayOptions();
 
@@ -136,6 +136,15 @@ class RiverBank
         void displayPositions();
 
 
+        /*-----------------------------------------------------------------------
+            The switchCase function executes actions based on user input, updates
+            the turn count, and returns the current game state.
+
+            Precondition:  A valid integer userInput which corresponds to an action.
+            Receives: An integer userInput which indicates which action to perform.
+            Postcondition: Executes a series of actions based on the userInput and 
+                        returns the current game state (win, lose, or continue).
+        -----------------------------------------------------------------------*/
         int switchCase(int );
 };
 
