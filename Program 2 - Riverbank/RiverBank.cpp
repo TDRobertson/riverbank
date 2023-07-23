@@ -26,6 +26,7 @@
 
 #include "RiverBank.h"
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -63,6 +64,7 @@ void RiverBank::resetGame()
     grain = false;
     fox = false;
     gameState = 1;
+    turnCount = 1;
 }
 
 
@@ -138,12 +140,14 @@ int RiverBank::setStatus()
     {
         gameState = 0;  /* Fox eats chicken */
         cout << "The fox ate the chicken because you left them alone! " << endl;
+        outFile << "The fox ate the chicken because you left them alone! " << endl;
     }
     /* If chicken and grain are together without farmer */
     else if (farmer != chicken && chicken == grain)
     {
         gameState = 0;  /* Chicken eats grain */
         cout << "You left the chicken alone with the grain! It hungrily jumps into the bag and swiftly devours all of it! " << endl;
+        outFile << "You left the chicken alone with the grain! It hungrily jumps into the bag and swiftly devours all of it! " << endl;
     }
 
     /* ALL OTHER POSITION COMBINATIONS ARE SAFE, SO GAME CONTINUES */
@@ -185,9 +189,12 @@ void RiverBank::displayPositions()
     /*If no items are on the north bank.*/
     if (!fox && !chicken && !grain) 
     {
-        cout << "\nNorth Bank: " << endl;        
+        cout << "\nNorth Bank: " << endl;      
+        outFile << "\nNorth Bank: " << endl;  
         cout << "Farmer " << endl;
+        outFile << "Farmer " << endl;
         cout << "\nSouth Bank: " << "\nFox\nChicken\nGrain " << endl;
+        outFile << "\nSouth Bank: " << "\nFox\nChicken\nGrain " << endl;
     }
 
     /*If an item has been moved to the north bank, display all current positions based off boolean status.*/
@@ -195,44 +202,55 @@ void RiverBank::displayPositions()
     {
         /*Displaying items on the north river bank.*/
         cout << "\nNorth Bank: " << endl;
+        outFile << "\nNorth Bank: " << endl;
         if (farmer)
         {
             cout << "Farmer" << endl;
+            outFile << "Farmer" << endl;
         }
         if (fox)
         {
             cout << "Fox" << endl;
+            outFile << "Fox" << endl;
         }
         if (chicken)
         {
             cout << "Chicken" << endl;
+            outFile << "Chicken" << endl;
         }
         if (grain)
         {
             cout << "Grain" << endl;
+            outFile << "Grain" << endl;
         }
 
         /*Displaying items on the south river bank.*/
         cout << "\nSouth Bank: " << endl;
+        outFile << "\nSouth Bank: " << endl;
         if (!farmer)
         {
             cout << "Farmer" << endl;
+            outFile << "Farmer" << endl;
         }
         if (!fox)
         {
             cout << "Fox" << endl;
+            outFile << "Fox" << endl;
         }
         if (!chicken)
         {
             cout << "Chicken" << endl;
+            outFile << "Chicken" << endl;
         }
         if (!grain)
         {
             cout << "Grain" << endl;
+            outFile << "Grain" << endl;
         }
         if (!fox && !chicken && !grain)
         {
             cout << "<Empty> " << endl;
+            outFile << "<Empty> " << endl;
         }
     }
 
@@ -241,11 +259,14 @@ void RiverBank::displayPositions()
     cin.ignore();
     cin.get();
 
+    cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/
+    outFile << "\nTurn: " << turnCount << endl;    /*Display updated turn counter to outFile*/ 
+
 }
 
 int RiverBank::switchCase(int userInput)
 {
-    int turnCount = 0;             /*Set the initial turn count.*/
+    this->turnCount = 1;             /*Set the initial turn count.*/
     int gameState = getStatus();  /*get the initial game state*/
 
     while (gameState != 0 && gameState != 2) /*Check if game is in fail/continue/win state.*/
@@ -255,7 +276,8 @@ int RiverBank::switchCase(int userInput)
             /*If user does not enter a valid option, display options and ask for user input again.*/
             cout << "\nYou must enter one of the valid menu options: ";
             displayOptions();
-            cout << "\n\nEnter your choice: ";
+            cout << "\n\tWho will you cross to the other side of the river with? ";
+            cout << "\n\t(1) Just yourself, (2) Fox, (3) Chicken, (4) Grain, (5) Display current item positions: ";
             cin >> userInput;
         }
         else
@@ -265,9 +287,9 @@ int RiverBank::switchCase(int userInput)
             {
                 /*If user moves only the farmer.*/
                 case 1:
-                    turnCount++;
-                    cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/     
+                    this->turnCount++; 
                     cout << "\nYou go to the other side of the river by yourself. " << endl;
+                    outFile << "\nYou go to the other side of the river by yourself. " << endl;
                     setPosition(farmer);      /*Swap farmers position*/
                     displayPositions();       /*Display all item positions*/
                     gameState = setStatus();  /*update the game state*/
@@ -279,11 +301,11 @@ int RiverBank::switchCase(int userInput)
                     /*Validate farmer and the item to be moved are on the same side of the river.*/
                     if(farmer == fox)
                     {
-                        turnCount++;
-                        cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/                        
+                        this->turnCount++;                   
                         setPosition(farmer);      /*Swap farmers position*/
                         setPosition(fox);         /*Swap foxes position*/      
-                        cout << "\nYou take the fox to the other side of the river. " << endl;                  
+                        cout << "\nYou take the fox to the other side of the river. " << endl;    
+                        outFile << "\nYou take the fox to the other side of the river. " << endl;              
                     }
                     /*If farmer and fox are not on the same side of the river.*/
                     else if (farmer != fox)
@@ -299,11 +321,11 @@ int RiverBank::switchCase(int userInput)
                     /*Validate farmer and the item to be moved are on the same side of the river.*/
                     if(farmer == chicken)
                     {
-                        turnCount++;
-                        cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/                        
+                        this->turnCount++;                      
                         setPosition(farmer);      /*Swap farmers position*/
                         setPosition(chicken);         /*Swap chickens position*/      
-                        cout << "\nYou take the chicken to the other side of the river. " << endl;                  
+                        cout << "\nYou take the chicken to the other side of the river. " << endl;   
+                        outFile << "\nYou take the chicken to the other side of the river. " << endl;               
                     }
                     /*If farmer and chicken are not on the same side of the river.*/
                     else if (farmer != chicken)
@@ -320,11 +342,11 @@ int RiverBank::switchCase(int userInput)
                     /*Validate farmer and item to be moved are on the same side of the river.*/
                     if(farmer == grain)
                     {
-                        turnCount++;
-                        cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/                        
+                        this->turnCount++;                    
                         setPosition(farmer);      /*Swap farmers position*/
                         setPosition(grain);         /*Swap grain position*/      
-                        cout << "\nYou take the grain to the other side of the river. " << endl;                  
+                        cout << "\nYou take the grain to the other side of the river. " << endl;     
+                        outFile << "\nYou take the grain to the other side of the river. " << endl;             
                     }
                     /*If farmer and grain are not on the same side of the river.*/
                     else if (farmer != grain)
@@ -346,14 +368,9 @@ int RiverBank::switchCase(int userInput)
         /*Get the next userInput only if the game state is not 0 or 2 (still in continue state)*/
         if (gameState != 0 && gameState != 2) 
         {
-
-            /*Force user input to continue display of output messages.*/
-            //cout <<"\nPress Enter to continue...";
-            //cin.ignore();
-            //cin.get();
-            /*Continue getting user input for each new turn.*/
             displayOptions();
-            cout << "\n\nEnter your choice: ";
+            cout << "\n\tWho will you cross to the other side of the river with? ";
+            cout << "\n\t(1) Just yourself, (2) Fox, (3) Chicken, (4) Grain, (5) Display current item positions: ";
             cin >> userInput;
         }
     }

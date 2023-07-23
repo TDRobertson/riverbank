@@ -4,11 +4,15 @@
 	for the RiverBank object.
 
 	Operations are:
+        RiverBank – default constructor that initializes the RiverBank object data members.
+        resetGame – resets the RiverBank object data members to their default values whenever the user chooses to continue playing the game after a win or loss.
         getPosition – returns bool value of data member
         setPosition – sets position as South (False) or North (True)
         getStatus – optionally returns message telling state of the game world to user after input.
         setStatus – set state of game world based off Boolean combinations of data members.	
-        display – displays the current state of the game after every user decision.
+        displayOptions – displays the options for the user to choose from.
+        displayPosition – displays the current location of each item at the beginning of each turn.
+        switchCase – takes user input and calls the appropriate function to move the user and items across the river.
 
 
 	  
@@ -18,6 +22,7 @@
         Bool grain - position of the grain on South (False) or North (True) river bank.
         Bool fox - position of the fox on South (False) or North (True) river bank.
         bool position - placeholder position for select object member.
+        int turnCount - keeps track of the number of turns taken by the user.
         int gameState; - value of game status which determines if game continues or end.
 
 	Written by:  (Thomas D. Robertson II)			Tennessee Technological University
@@ -28,8 +33,11 @@
 #define RIVERBANK_H
 
 #include <iostream>
+#include <fstream>
 
 using namespace std;
+
+extern ofstream outFile;   /*Declare global ofstream object for writing to file.*/
 
 class RiverBank
 {
@@ -39,7 +47,7 @@ class RiverBank
         bool grain;
         bool fox;
         bool position;
-        
+        int turnCount = 1;
         int gameState;
 
     public:
@@ -53,6 +61,16 @@ class RiverBank
         -----------------------------------------------------------------------*/
         RiverBank();
 
+
+        /*-----------------------------------------------------------------------
+            The resetGame() function resets the RiverBank object data members to their
+            default values whenever the user chooses to continue playing the game after
+            a win or loss.
+
+            Precondition:  None
+            Postcondition: The RiverBank object data members are set to default bool
+                            values of false,gameState of continue, and turnCount of 1.
+        -----------------------------------------------------------------------*/
         void resetGame();
 
 
