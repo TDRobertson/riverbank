@@ -30,13 +30,33 @@
 using namespace std;
 
 /*-----------------------------------------------------------------------
-    The RiverBank class constructor initializes a RiverBank object data members.
+    The RiverBank class constructor initializes a RiverBank object data members
+    starting values.
+
+    Precondition:  None
+    Postcondition: The RiverBank object data members are initialized to default 
+                   bool values of false and gameState of continue.
+-----------------------------------------------------------------------*/
+RiverBank::RiverBank()
+{
+    farmer = false;
+    chicken = false;
+    grain = false;
+    fox = false;
+    gameState = 1;
+}
+
+
+/*-----------------------------------------------------------------------
+    The resetGame() function resets the RiverBank object data members to their
+    default values whenever the user chooses to continue playing the game after
+    a win or loss.
 
     Precondition:  None
     Postcondition: The RiverBank object data members are set to default bool
-                    values of false.
+                    values of false and gameState of continue.
 -----------------------------------------------------------------------*/
-RiverBank::RiverBank()
+void RiverBank::resetGame()
 {
     farmer = false;
     chicken = false;
@@ -68,21 +88,9 @@ bool RiverBank::getPosition(bool item) const
     Postcondition: Current RiverBank Object is set to True(North)/False(South)
 -----------------------------------------------------------------------*/
 void RiverBank::setPosition(bool &objectMember)
- 
 {   
-    objectMember = !objectMember; // Toggle the object's current position.
+    objectMember = !objectMember;   /*Toggle the items current position to the opposite side of the river bank.*/
 }
-
-    //if (position == false)  /*If object on southern bank, set position to north bank*/
-    //{
-    //    position = true;
-    //}
-
-    //else if (position == true) /*If object on north bank, set position to south bank*/
-    //{
-    //    position = false; 
-    //}
-
 
 
 /*-----------------------------------------------------------------------
@@ -115,7 +123,7 @@ int RiverBank::setStatus()
     If farmer is also present (same side of riverbank) with fail state  combinations the game will not end as the 
     farmer will stop that event. */
     
-    /*for readability of the below code !farmer means farmer = false, and farmer = true.*/
+    /*for readability of the below code !farmer means farmer == false, and farmer means farmer == true.*/
     
     /* WIN STATE */
     /* If farmer moves all objects and themselves North */
@@ -123,39 +131,44 @@ int RiverBank::setStatus()
     {
         gameState = 2;  /* All objects have crossed the river safely */
     }
+
     /* FAIL STATES */
     /* If fox and chicken are together without farmer */
     else if (farmer != fox && fox == chicken)
     {
         gameState = 0;  /* Fox eats chicken */
-        cout << "Farmer not present, so fox eats chicken." << endl;
+        cout << "The fox ate the chicken because you left them alone! " << endl;
     }
     /* If chicken and grain are together without farmer */
     else if (farmer != chicken && chicken == grain)
     {
         gameState = 0;  /* Chicken eats grain */
-        cout << "Farmer not present, so chicken eats grain." << endl;
+        cout << "You left the chicken alone with the grain! It hungrily jumps into the bag and swiftly devours all of it! " << endl;
     }
+
     /* ALL OTHER POSITION COMBINATIONS ARE SAFE, SO GAME CONTINUES */
     else
     {
         gameState = 1; /* Nothing happens, game continues */
     }
 
+    /*Update riverbank classes gameState for use in main.*/
     return this->gameState;
 }
 
 
 /*-----------------------------------------------------------------------
-    The display function displays the current state of the game after every
-    user decision.
+    The displayOptions function displays the options the user can choose
+    from at the beginning of each turn.
 
     Precondition:  None
-    Postcondition: Determines if game continues or ends
+    Postcondition: Displays all options to user.
 -----------------------------------------------------------------------*/
-void RiverBank::display()
+void RiverBank::displayOptions()
 {
-    /*Add something here later*/
+    cout << "\nHow would you like to cross the river? " << endl << "\nEnter these values to issue a command: " << endl;
+    cout << "\t1. Move ONLY yourself across the river. " << "\n\t2. Move the Fox & yourself across the river. " << "\n\t3. Move the Chicken and yourself across the river. ";
+    cout << "\n\t4. Move the Grain and yourself across the river. " << "\n\t5. Display current item positions! (North/South). " << endl;
 }
 
 /*-----------------------------------------------------------------------
@@ -167,107 +180,183 @@ void RiverBank::display()
 -----------------------------------------------------------------------*/
 void RiverBank::displayPositions()
 {
+    int tempInput = 0;
+
+    /*If no items are on the north bank.*/
     if (!fox && !chicken && !grain) 
     {
-        cout << "North Bank: " << endl;        
-        cout << "<Empty> " << endl;
-        cout << "\nSouth Bank: " << "\nfox\nchicken\ngrain " << endl;
+        cout << "\nNorth Bank: " << endl;        
+        cout << "Farmer " << endl;
+        cout << "\nSouth Bank: " << "\nFox\nChicken\nGrain " << endl;
     }
+
+    /*If an item has been moved to the north bank, display all current positions based off boolean status.*/
     else
     {
-        cout << "North Bank: " << endl;
+        /*Displaying items on the north river bank.*/
+        cout << "\nNorth Bank: " << endl;
+        if (farmer)
+        {
+            cout << "Farmer" << endl;
+        }
         if (fox)
         {
-            cout << "fox" << endl;
+            cout << "Fox" << endl;
         }
         if (chicken)
         {
-            cout << "chicken" << endl;
+            cout << "Chicken" << endl;
         }
         if (grain)
         {
-            cout << "grain" << endl;
+            cout << "Grain" << endl;
         }
 
-        cout << "South Bank: " << endl;
+        /*Displaying items on the south river bank.*/
+        cout << "\nSouth Bank: " << endl;
+        if (!farmer)
+        {
+            cout << "Farmer" << endl;
+        }
         if (!fox)
         {
-            cout << "fox" << endl;
+            cout << "Fox" << endl;
         }
         if (!chicken)
         {
-            cout << "chicken" << endl;
+            cout << "Chicken" << endl;
         }
         if (!grain)
         {
-            cout << "grain" << endl;
+            cout << "Grain" << endl;
+        }
+        if (!fox && !chicken && !grain)
+        {
+            cout << "<Empty> " << endl;
         }
     }
+
+    /*Force user input to continue display of output messages.*/
+    cout <<"\nPress Enter to continue...";
+    cin.ignore();
+    cin.get();
+
 }
 
 int RiverBank::switchCase(int userInput)
 {
-    int turnCount = 0;
-    int gameState = getStatus();  // get the initial game state
+    int turnCount = 0;             /*Set the initial turn count.*/
+    int gameState = getStatus();  /*get the initial game state*/
 
     while (gameState != 0 && gameState != 2) /*Check if game is in fail/continue/win state.*/
     {
         if (userInput < 1 || userInput > 5)
         {
-            cout << "You must enter one of the valid menu options: ";
+            /*If user does not enter a valid option, display options and ask for user input again.*/
+            cout << "\nYou must enter one of the valid menu options: ";
+            displayOptions();
+            cout << "\n\nEnter your choice: ";
             cin >> userInput;
         }
         else
         {
+            /*Move a given item based on user input, update & display turn count, and changes gameStatus per item combinations.*/
             switch (userInput)
             {
+                /*If user moves only the farmer.*/
                 case 1:
                     turnCount++;
-                    cout << "You go to the other side of the river by yourself. " << endl;
-                    setPosition(farmer);
-                    displayPositions();
-                    gameState = setStatus();  // update the game state
-                    cout << "Turn: " << turnCount << endl;
+                    cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/     
+                    cout << "\nYou go to the other side of the river by yourself. " << endl;
+                    setPosition(farmer);      /*Swap farmers position*/
+                    displayPositions();       /*Display all item positions*/
+                    gameState = setStatus();  /*update the game state*/
+
                     break;
 
+                /*If user takes the fox along with the farmer.*/
                 case 2:
-                    turnCount++;
-                    setPosition(farmer);
-                    setPosition(fox);
-                    cout << "You take the fox to the other side of the river. " << endl;
-                    displayPositions();
-                    gameState = setStatus();  // update the game state
+                    /*Validate farmer and the item to be moved are on the same side of the river.*/
+                    if(farmer == fox)
+                    {
+                        turnCount++;
+                        cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/                        
+                        setPosition(farmer);      /*Swap farmers position*/
+                        setPosition(fox);         /*Swap foxes position*/      
+                        cout << "\nYou take the fox to the other side of the river. " << endl;                  
+                    }
+                    /*If farmer and fox are not on the same side of the river.*/
+                    else if (farmer != fox)
+                    {
+                        cout << "\nYou cannot move an item that is not on the same side of the river as you! " << endl;
+                    }
+                    displayPositions();       /*Display all item positions*/
+                    gameState = setStatus();  /*update the game state*/
                     break;
 
+                /*If user takes the chicken along with the farmer.*/
                 case 3:
-                    turnCount++;
-                    setPosition(farmer);
-                    setPosition(chicken);
-                    cout << "You take the chicken to the other side of the river. " << endl;
-                    displayPositions();
-                    gameState = setStatus();  // update the game state
+                    /*Validate farmer and the item to be moved are on the same side of the river.*/
+                    if(farmer == chicken)
+                    {
+                        turnCount++;
+                        cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/                        
+                        setPosition(farmer);      /*Swap farmers position*/
+                        setPosition(chicken);         /*Swap chickens position*/      
+                        cout << "\nYou take the chicken to the other side of the river. " << endl;                  
+                    }
+                    /*If farmer and chicken are not on the same side of the river.*/
+                    else if (farmer != chicken)
+                    {
+                        cout << "\nYou cannot move an item that is not on the same side of the river as you! " << endl;
+                    }
+
+                    displayPositions();       /*Display all item positions*/
+                    gameState = setStatus();  /*update the game state*/
                     break;
 
+                /*If user takes the grain along with the farmer.*/
                 case 4:
-                    turnCount++;
-                    setPosition(farmer);
-                    setPosition(grain);
-                    cout << "You take the grain to the other side of the river. " << endl;
-                    displayPositions();
-                    gameState = setStatus();  // update the game state
+                    /*Validate farmer and item to be moved are on the same side of the river.*/
+                    if(farmer == grain)
+                    {
+                        turnCount++;
+                        cout << "\nTurn: " << turnCount << endl;    /*Display updated turn counter*/                        
+                        setPosition(farmer);      /*Swap farmers position*/
+                        setPosition(grain);         /*Swap grain position*/      
+                        cout << "\nYou take the grain to the other side of the river. " << endl;                  
+                    }
+                    /*If farmer and grain are not on the same side of the river.*/
+                    else if (farmer != grain)
+                    {
+                        cout << "\nYou cannot move an item that is not on the same side of the river as you! " << endl;
+                    }
+                    displayPositions();       /*Display all item positions*/
+                    gameState = setStatus();  /*update the game state*/
                     break;
 
+                /*Display all item positions to user.*/
                 case 5: 
-                    cout << "This is the current position of yourself and all items! " << endl;
-                    displayPositions();
+                    cout << "\nThis is the current position of the farmer and all items! " << endl;
+                    displayPositions();       /*Display all item positions*/
                     break;
             }
         }      
-        // Get the next userInput only if the game state is not 0 or 2
-        if (gameState != 0 && gameState != 2) {
-            cout << "How would you like to cross the river? ";
+
+        /*Get the next userInput only if the game state is not 0 or 2 (still in continue state)*/
+        if (gameState != 0 && gameState != 2) 
+        {
+
+            /*Force user input to continue display of output messages.*/
+            //cout <<"\nPress Enter to continue...";
+            //cin.ignore();
+            //cin.get();
+            /*Continue getting user input for each new turn.*/
+            displayOptions();
+            cout << "\n\nEnter your choice: ";
             cin >> userInput;
         }
     }
-    return gameState;  // return the final game state
+
+    return gameState;  /*return the final game state*/
 }

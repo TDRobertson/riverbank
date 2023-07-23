@@ -53,6 +53,8 @@ class RiverBank
         -----------------------------------------------------------------------*/
         RiverBank();
 
+        void resetGame();
+
 
         /*-----------------------------------------------------------------------
 			The getPosition function returns the boolean value of data object member.
@@ -103,7 +105,7 @@ class RiverBank
 			Precondition:  None
 			Postcondition: Determines if game continues or ends
         -----------------------------------------------------------------------*/
-        void display();
+        void displayOptions();
 
 
         /*-----------------------------------------------------------------------
